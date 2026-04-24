@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Mobile | Fitness Tracker</title>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="fitness.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="profile-section">
+                <div class="profile-img">
+                    <!-- Placeholder avatar -->
+                    <img src="https://i.pravatar.cc/150?img=68" alt="Profile">
+                </div>
+                <div class="greeting">
+                    <p>Good Morning,</p>
+                    <h2>Dipesh Rathod</h2>
+                </div>
+            </div>
+            <a href="index.html" class="notification-btn" title="Back to Portfolio">
+                <i class="fas fa-th-large"></i>
+                <div class="badge"></div>
+            </a>
+        </header>
+
+        <!-- Main Progress Ring -->
+        <section class="progress-section">
+            <div class="progress-circle">
+                <svg>
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ff416c" />
+                            <stop offset="100%" stop-color="#ff4b2b" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="bg-circle" cx="120" cy="120" r="105"></circle>
+                    <circle class="progress" cx="120" cy="120" r="105"></circle>
+                </svg>
+                <div class="progress-inner">
+                    <i class="fas fa-fire icon-fire"></i>
+                    <h1 id="calorieCount">0</h1>
+                    <p>Kcal Burned</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Grid -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon c-blue"><i class="fas fa-shoe-prints"></i></div>
+                <div class="stat-value">6,423</div>
+                <div class="stat-name">Steps Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon c-green"><i class="fas fa-heartbeat"></i></div>
+                <div class="stat-value">112 <span>bpm</span></div>
+                <div class="stat-name">Heart Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon c-purple"><i class="fas fa-bed"></i></div>
+                <div class="stat-value">7 <span>h</span> 20 <span>m</span></div>
+                <div class="stat-name">Sleep</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon c-orange"><i class="fas fa-tint"></i></div>
+                <div class="stat-value">1.8 <span>L</span></div>
+                <div class="stat-name">Water</div>
+            </div>
+        </section>
+
+        <!-- Activity -->
+        <section class="activity-section">
+            <div class="section-header">
+                <h3>Today's Workout</h3>
+                <a href="#">See All</a>
+            </div>
+            <div class="activity-card">
+                <div class="activity-info">
+                    <h4>Full Body HIIT</h4>
+                    <p>45 mins • Intermediate</p>
+                </div>
+                <div class="play-btn">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Panel (hidden initially) -->
+        <section class="alt-panel" id="statsPanel" style="display:none; padding: 1.5rem;">
+            <h3 style="margin-bottom:1.5rem; font-size:1.3rem;">Weekly Stats</h3>
+            <div style="display:grid; gap:1rem;">
+                <div class="stat-card" style="display:flex; justify-content:space-between; align-items:center;">
+                    <div><div class="stat-name">Mon</div><div class="stat-value">8,200</div></div>
+                    <div style="width:60%; background:#2a2d3e; border-radius:50px; height:8px;"><div style="width:82%; height:100%; background:var(--gradient-4); border-radius:50px;"></div></div>
+                </div>
+                <div class="stat-card" style="display:flex; justify-content:space-between; align-items:center;">
+                    <div><div class="stat-name">Tue</div><div class="stat-value">6,423</div></div>
+                    <div style="width:60%; background:#2a2d3e; border-radius:50px; height:8px;"><div style="width:64%; height:100%; background:var(--gradient-3); border-radius:50px;"></div></div>
+                </div>
+                <div class="stat-card" style="display:flex; justify-content:space-between; align-items:center;">
+                    <div><div class="stat-name">Wed</div><div class="stat-value">9,100</div></div>
+                    <div style="width:60%; background:#2a2d3e; border-radius:50px; height:8px;"><div style="width:91%; height:100%; background:var(--gradient-2); border-radius:50px;"></div></div>
+                </div>
+                <div class="stat-card" style="display:flex; justify-content:space-between; align-items:center;">
+                    <div><div class="stat-name">Thu</div><div class="stat-value">5,870</div></div>
+                    <div style="width:60%; background:#2a2d3e; border-radius:50px; height:8px;"><div style="width:58%; height:100%; background:var(--gradient-1); border-radius:50px;"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Explore Panel (hidden initially) -->
+        <section class="alt-panel" id="explorePanel" style="display:none; padding: 1.5rem;">
+            <h3 style="margin-bottom:1.5rem; font-size:1.3rem;">Explore Workouts</h3>
+            <div style="display:grid; gap:1rem;">
+                <div class="activity-card"><div class="activity-info"><h4>Yoga Flow</h4><p>30 mins • Beginner</p></div><div class="play-btn"><i class="fas fa-play"></i></div></div>
+                <div class="activity-card" style="background: var(--gradient-3);"><div class="activity-info"><h4>Morning Run</h4><p>20 mins • Easy</p></div><div class="play-btn" style="color:#11998e;"><i class="fas fa-play"></i></div></div>
+                <div class="activity-card" style="background: var(--gradient-4);"><div class="activity-info"><h4>Strength Training</h4><p>60 mins • Advanced</p></div><div class="play-btn" style="color:#4facfe;"><i class="fas fa-play"></i></div></div>
+            </div>
+        </section>
+
+        <!-- Profile Panel (hidden initially) -->
+        <section class="alt-panel" id="profilePanel" style="display:none; padding: 1.5rem;">
+            <div style="text-align:center; margin-bottom:2rem;">
+                <img src="https://i.pravatar.cc/150?img=68" style="width:90px;height:90px;border-radius:50%;border:3px solid #ff416c;" alt="Profile">
+                <h3 style="margin-top:1rem;">Dipesh Rathod</h3>
+                <p style="color:var(--text-muted);">@dipesh.fit</p>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; text-align:center; margin-bottom:1.5rem;">
+                <div class="stat-card"><div class="stat-value">128</div><div class="stat-name">Workouts</div></div>
+                <div class="stat-card"><div class="stat-value">18</div><div class="stat-name">Streak</div></div>
+                <div class="stat-card"><div class="stat-value">4.2<span>kg</span></div><div class="stat-name">Lost</div></div>
+            </div>
+            <a href="index.html" style="display:block; text-align:center; background:var(--gradient-1); color:white; padding:1rem; border-radius:16px; text-decoration:none; font-weight:600;"><i class="fas fa-arrow-left"></i> Back to Portfolio</a>
+        </section>
+
+        <!-- Workout Modal Overlay -->
+        <div id="workoutModal" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:100; backdrop-filter:blur(5px); justify-content:center; align-items:center;">
+            <div style="background:var(--bg-card); border-radius:30px; padding:2rem; width:85%; text-align:center;">
+                <i class="fas fa-dumbbell" style="font-size:3rem; background:var(--gradient-1); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
+                <h3 style="margin:1rem 0 0.5rem;">Full Body HIIT</h3>
+                <p style="color:var(--text-muted); margin-bottom:1.5rem;">45 mins • 320 kcal</p>
+                <button onclick="document.getElementById('workoutModal').style.display='none'" style="background:var(--gradient-1); color:white; border:none; padding:1rem 2rem; border-radius:50px; font-size:1rem; font-weight:700; cursor:pointer; width:100%; margin-bottom:0.75rem;">Start Workout</button>
+                <button onclick="document.getElementById('workoutModal').style.display='none'" style="background:transparent; color:var(--text-muted); border:1px solid #2a2d3e; padding:0.8rem 2rem; border-radius:50px; font-size:0.9rem; cursor:pointer; width:100%;">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" id="nav-home" onclick="switchTab('home')"><i class="fas fa-home"></i></div>
+            <div class="nav-item" id="nav-stats" onclick="switchTab('stats')"><i class="fas fa-chart-bar"></i></div>
+            <div class="nav-item" id="nav-add" onclick="document.getElementById('workoutModal').style.display='flex'"><i class="fas fa-plus-circle" style="font-size: 2.5rem; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 5px 10px rgba(255, 65, 108, 0.4));"></i></div>
+            <div class="nav-item" id="nav-explore" onclick="switchTab('explore')"><i class="fas fa-compass"></i></div>
+            <div class="nav-item" id="nav-profile" onclick="switchTab('profile')"><i class="fas fa-user"></i></div>
+        </nav>
+    </div>
+
+    <!-- Scripts for animations -->
+    <script>
+        // Number counter animation for Calories
+        const counter = document.getElementById('calorieCount');
+        const target = 1840;
+        const duration = 1500; // ms
+        const steps = 60;
+        const stepTime = duration / steps;
+        
+        let current = 0;
+        const increment = target / steps;
+
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                counter.innerText = target.toLocaleString();
+                clearInterval(timer);
+            } else {
+                counter.innerText = Math.floor(current).toLocaleString();
+            }
+        }, stepTime);
+
+        // All play buttons open workout modal
+        document.querySelectorAll('.play-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('workoutModal').style.display = 'flex';
+            });
+        });
+
+        // Tab switching
+        const homeContent = document.querySelectorAll('.progress-section, .stats-grid, .activity-section');
+        const statsPanel = document.getElementById('statsPanel');
+        const explorePanel = document.getElementById('explorePanel');
+        const profilePanel = document.getElementById('profilePanel');
+
+        function switchTab(tab) {
+            // Hide all panels
+            homeContent.forEach(el => el.style.display = 'none');
+            statsPanel.style.display = 'none';
+            explorePanel.style.display = 'none';
+            profilePanel.style.display = 'none';
+
+            // Remove active from all nav items
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+            if(tab === 'home') {
+                homeContent.forEach(el => el.style.display = '');
+                document.getElementById('nav-home').classList.add('active');
+            } else if(tab === 'stats') {
+                statsPanel.style.display = 'block';
+                document.getElementById('nav-stats').classList.add('active');
+            } else if(tab === 'explore') {
+                explorePanel.style.display = 'block';
+                document.getElementById('nav-explore').classList.add('active');
+            } else if(tab === 'profile') {
+                profilePanel.style.display = 'block';
+                document.getElementById('nav-profile').classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

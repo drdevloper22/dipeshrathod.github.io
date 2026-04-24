@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahmedabad One Way Taxi | Gujarat Cab Service | Explore Hub Tourism</title>
+    <meta name="description" content="Book affordable one way taxi from Ahmedabad to all major Gujarat cities — Surat, Vadodara, Rajkot, Bhavnagar, Bhuj and more. Sedan, Ertiga & Crista available.">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="taxi2.css">
+    <link rel="stylesheet" href="taxi.css">
+</head>
+
+<body>
+
+    <!-- Header Navigation -->
+    <header id="header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-earth-americas"></i> Explore Hub Tourism
+            </a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Packages</a></li>
+                <li><a href="taxi.html" class="active-nav">Taxi</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <a href="#booking-form" class="btn btn-primary" style="box-shadow: none;">Book Taxi</a>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="taxi-hero">
+        <div class="taxi-hero-overlay"></div>
+        <div class="container taxi-hero-content">
+            <div class="taxi-hero-badge">
+                <i class="fa-solid fa-car-side"></i> Ahmedabad One Way Taxi
+            </div>
+            <h1>All Gujarat.<br>Fixed Fares. No Surprises.</h1>
+            <p>Book affordable, reliable one-way cabs from Ahmedabad to all major Gujarat cities. No return charges, no hidden fees — just transparent fixed pricing.</p>
+            <div class="taxi-hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">15+</span>
+                    <span class="stat-label">Gujarat Cities</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number">10,000+</span>
+                    <span class="stat-label">Happy Travelers</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Support Available</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section id="booking-form" class="booking-section container">
+        <div class="booking-card glass">
+            <div class="booking-header">
+                <i class="fa-solid fa-route"></i>
+                <h2>Book Your Ahmedabad Taxi</h2>
+                <p>Select your trip type, destination city and vehicle to see the fixed fare instantly</p>
+            </div>
+
+            <form id="taxiBookingForm" class="taxi-form" onsubmit="handleTaxiBooking(event)">
+
+                <!-- Trip Type Toggle -->
+                <div class="trip-type-toggle">
+                    <button type="button" id="btn-oneway" class="trip-type-btn active" onclick="setTripType('oneway')">
+                        <i class="fa-solid fa-arrow-right-long"></i> One Way
+                    </button>
+                    <button type="button" id="btn-roundtrip" class="trip-type-btn" onclick="setTripType('roundtrip')">
+                        <i class="fa-solid fa-repeat"></i> Round Trip
+                    </button>
+                </div>
+                <input type="hidden" id="trip-type" name="trip-type" value="oneway">
+
+                <!-- Route Row -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pickup"><i class="fa-solid fa-circle-dot" style="color:#22c55e;"></i> Pickup City</label>
+                        <input type="text" id="pickup" name="pickup" value="Ahmedabad" readonly style="background:#f0fdf4; font-weight:700; color:#16a34a; cursor:not-allowed;">
+                    </div>
+                    <div class="route-arrow" id="routeArrow">
+                        <i class="fa-solid fa-arrow-right-long" id="routeArrowIcon"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="dropoff"><i class="fa-solid fa-location-dot" style="color:#ef4444;"></i> Drop City (Gujarat)</label>
+                        <select id="dropoff" name="dropoff" required onchange="updateFare()">
+                            <option value="">-- Select Destination --</option>
+                            <option value="Surat">Surat</option>
+                            <option value="Vadodara">Vadodara</option>
+                            <option value="Bharuch">Bharuch</option>
+                            <option value="Vapi">Vapi</option>
+                            <option value="Valsad">Valsad</option>
+                            <option value="Bhavnagar">Bhavnagar</option>
+                            <option value="Rajkot">Rajkot</option>
+                            <option value="Jamnagar">Jamnagar</option>
+                            <option value="Morbi">Morbi</option>
+                            <option value="Junagadh">Junagadh</option>
+                            <option value="Diu">Diu</option>
+                            <option value="Somnath">Somnath</option>
+                            <option value="Bhuj">Bhuj</option>
+                            <option value="Mundra">Mundra</option>
+                            <option value="Gandhidham">Gandhidham</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Date & Time Row — 1st Priority -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="travel-date"><i class="fa-regular fa-calendar"></i> Travel Date</label>
+                        <input type="date" id="travel-date" name="travel-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pickup-time"><i class="fa-regular fa-clock"></i> Pickup Time</label>
+                        <input type="time" id="pickup-time" name="pickup-time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="passengers"><i class="fa-solid fa-users"></i> Passengers</label>
+                        <select id="passengers" name="passengers" onchange="filterCarsByPassengers()">
+                            <option value="1" selected>1 Passenger</option>
+                            <option value="2">2 Passengers</option>
+                            <option value="3">3 Passengers</option>
+                            <option value="4">4 Passengers</option>
+                            <option value="5">5 Passengers</option>
+                            <option value="6">6 Passengers</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Return Date Row (Round Trip only) — 2nd Priority -->
+                <div class="form-row" id="returnDateRow" style="display:none;">
+                    <div class="form-group" style="flex:1;">
+                        <label for="return-date"><i class="fa-regular fa-calendar-check" style="color:#8b5cf6;"></i> Return Date <span style="color:#8b5cf6; font-size:0.82rem;">(Back to Ahmedabad)</span></label>
+                        <input type="date" id="return-date" name="return-date">
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label for="return-time"><i class="fa-regular fa-clock" style="color:#8b5cf6;"></i> Return Pickup Time</label>
+                        <input type="time" id="return-time" name="return-time">
+                    </div>
+                    <div class="form-group" style="flex:1; background:linear-gradient(135deg,#f5f3ff,#ede9fe); border-radius:12px; padding:1rem; display:flex; flex-direction:column; justify-content:center; align-items:center; border:1.5px dashed #8b5cf6;">
+                        <span style="font-size:0.78rem; color:#7c3aed; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Round Trip Saving</span>
+                        <span style="font-size:1.1rem; font-weight:800; color:#6d28d9;">25% OFF Total</span>
+                    </div>
+                </div>
+
+                <!-- Contact Row -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="full-name"><i class="fa-solid fa-user"></i> Full Name</label>
+                        <input type="text" id="full-name" name="full-name" placeholder="Your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone"><i class="fa-solid fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+91 3322114455" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fa-solid fa-envelope"></i> Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com">
+                    </div>
+                </div>
+
+                <!-- Car Selection -->
+                <div class="car-selection-label">
+                    <i class="fa-solid fa-car"></i> Select Your Vehicle
+                </div>
+                <div class="car-options" id="carOptions">
+                    <!-- Sedan -->
+                    <label class="car-option" for="car-sedan">
+                        <input type="radio" id="car-sedan" name="car-type" value="sedan" checked onchange="updateFare()">
+                        <div class="car-option-content">
+                            <div class="car-icon-wrap sedan-icon">
+                                <i class="fa-solid fa-car"></i>
+                            </div>
+                            <div class="car-details">
+                                <h4>Sedan</h4>
+                                <p>Swift Dzire / Honda City</p>
+                                <div class="car-meta">
+                                    <span><i class="fa-solid fa-users"></i> 3 Seats</span>
+                                    <span><i class="fa-solid fa-wind"></i> AC</span>
+                                    <span><i class="fa-solid fa-suitcase"></i> 2 Bags</span>
+                                </div>
+                            </div>
+                            <div class="car-price">
+                                <span class="rate-label">From</span>
+                                <span class="rate-amount" id="sedan-display">₹1,699</span>
+                            </div>
+                        </div>
+                        <div class="selected-check"><i class="fa-solid fa-circle-check"></i></div>
+                    </label>
+
+                    <!-- Ertiga -->
+                    <label class="car-option" for="car-ertiga">
+                        <input type="radio" id="car-ertiga" name="car-type" value="ertiga" onchange="updateFare()">
+                        <div class="car-option-content">
+                            <div class="car-icon-wrap suv-icon">
+                                <i class="fa-solid fa-truck-pickup"></i>
+                            </div>
+                            <div class="car-details">
+                                <h4>Ertiga</h4>
+                                <p>Maruti Ertiga / Mahindra Marazzo</p>
+                                <div class="car-meta">
+                                    <span><i class="fa-solid fa-users"></i> 6 Seats</span>
+                                    <span><i class="fa-solid fa-wind"></i> AC</span>
+                                    <span><i class="fa-solid fa-suitcase"></i> 3 Bags</span>
+                                </div>
+                            </div>
+                            <div class="car-price">
+                                <span class="rate-label">From</span>
+                                <span class="rate-amount" id="ertiga-display">₹2,499</span>
+                            </div>
+                        </div>
+                        <div class="selected-check"><i class="fa-solid fa-circle-check"></i></div>
+                    </label>
+
+                    <!-- Crista -->
+                    <label class="car-option" for="car-crista">
+                        <input type="radio" id="car-crista" name="car-type" value="crista" onchange="updateFare()">
+                        <div class="car-option-content">
+                            <div class="car-icon-wrap luxury-icon">
+                                <i class="fa-solid fa-car-side"></i>
+                            </div>
+                            <div class="car-details">
+                                <h4>Crista</h4>
+                                <p>Toyota Innova Crysta</p>
+                                <div class="car-meta">
+                                    <span><i class="fa-solid fa-users"></i> 7 Seats</span>
+                                    <span><i class="fa-solid fa-wind"></i> AC</span>
+                                    <span><i class="fa-solid fa-star"></i> Premium</span>
+                                </div>
+                            </div>
+                            <div class="car-price">
+                                <span class="rate-label">From</span>
+                                <span class="rate-amount" id="crista-display">₹4,999</span>
+                            </div>
+                        </div>
+                        <div class="selected-check"><i class="fa-solid fa-circle-check"></i></div>
+                    </label>
+                </div>
+                <!-- Passenger Warning -->
+                <div id="passengerWarning" style="display:none; background: linear-gradient(135deg,#fff7ed,#ffedd5); border: 1.5px solid #fb923c; border-radius: 12px; padding: 0.85rem 1.2rem; margin-top: 0.5rem; color: #9a3412; font-size: 0.93rem; font-weight: 500; display:none; align-items:center; gap: 0.6rem;">
+                    <i class="fa-solid fa-triangle-exclamation" style="font-size:1.1rem; color:#f97316;"></i>
+                    <span id="passengerWarningText">Sedan seats only 3 passengers. Please choose Ertiga or Crysta for larger groups.</span>
+                </div>
+                              <!-- Fare Display -->
+                <div class="fare-estimator" id="fareEstimator">
+                    <div class="fare-estimator-header">
+                        <i class="fa-solid fa-tags"></i>
+                        <span>Fixed Fare for Your Trip</span>
+                    </div>
+                    <div class="fare-inputs">
+                        <div class="fare-result" id="fareResult" style="flex:1; text-align:center;">
+                            <span class="fare-label">Your Fare (Ahmedabad → Selected City)</span>
+                            <span class="fare-value" id="fareValue">Select city & vehicle above</span>
+                        </div>
+                    </div>
+                    <p class="fare-note">* Fixed price, no return charges. Toll & state taxes extra. T&amp;C apply.</p>
+                </div>
+
+                <!-- Special Requests -->
+                <div class="form-group full-width">
+                    <label for="special-req"><i class="fa-regular fa-comment-dots"></i> Special Requests (Optional)</label>
+                    <textarea id="special-req" name="special-req" rows="3" placeholder="Any special requirements, preferred pickup point details, etc."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary taxi-submit-btn">
+                    <i class="fa-solid fa-taxi"></i> Confirm Taxi Booking
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Why Choose Our Taxi Section -->
+    <section class="taxi-features">
+        <div class="container">
+            <div class="section-header">
+                <p>Why Book With Us</p>
+                <h2>Comfortable & Reliable Rides</h2>
+            </div>
+            <div class="taxi-features-grid">
+                <div class="taxi-feature-card">
+                    <div class="taxi-feature-icon">
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                    </div>
+                    <h3>Zero Return Charges</h3>
+                    <p>Pay only for the distance you travel. Our one-way pricing means you are never charged for the return trip.</p>
+                </div>
+                <div class="taxi-feature-card">
+                    <div class="taxi-feature-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3>Safe & Verified Drivers</h3>
+                    <p>All drivers are background verified, trained professionals with valid licenses and years of experience.</p>
+                </div>
+                <div class="taxi-feature-card">
+                    <div class="taxi-feature-icon">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <h3>24/7 Availability</h3>
+                    <p>Book at any hour, any day. Our fleet is available round the clock for early morning or late night travel.</p>
+                </div>
+                <div class="taxi-feature-card">
+                    <div class="taxi-feature-icon">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    </div>
+                    <h3>Instant Confirmation</h3>
+                    <p>Receive your booking confirmation via SMS and Email the moment your ride is confirmed.</p>
+                </div>
+                <div class="taxi-feature-card">
+                    <div class="taxi-feature-icon">
+                        <i class="fa-solid fa-route"></i>
+                    </div>
+                    <h3>All Gujarat Coverage</h3>
+                    <p>We cover 15+ cities across Gujarat — from Ahmedabad to Kutch, Saurashtra, South and Central Gujarat.</p>
+                </div>
+                <div class="taxi-feature-card">
+                    <div class="taxi-feature-icon">
+                        <i class="fa-solid fa-hand-sparkles"></i>
+                    </div>
+                    <h3>Clean & Sanitized Cabs</h3>
+                    <p>Every cab is thoroughly cleaned and sanitized before each trip for your health and comfort.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Routes Section -->
+    <section class="popular-routes container">
+        <div class="section-header">
+            <p>Most Booked</p>
+            <h2>Popular Ahmedabad → Gujarat Routes</h2>
+        </div>
+        <div class="routes-grid">
+            <div class="route-card" onclick="fillRoute('Surat')">
+                <div class="route-card-header">
+                    <span class="route-from">Ahmedabad</span>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <span class="route-to">Surat</span>
+                </div>
+                <div class="route-card-details">
+                    <span><i class="fa-solid fa-road"></i> ~265 km</span>
+                    <span><i class="fa-regular fa-clock"></i> ~3.5 hrs</span>
+                </div>
+                <div class="route-price">Sedan <strong>₹2,999</strong></div>
+                <button class="route-book-btn">Book Now</button>
+            </div>
+
+            <div class="route-card" onclick="fillRoute('Vadodara')">
+                <div class="route-card-header">
+                    <span class="route-from">Ahmedabad</span>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <span class="route-to">Vadodara</span>
+                </div>
+                <div class="route-card-details">
+                    <span><i class="fa-solid fa-road"></i> ~110 km</span>
+                    <span><i class="fa-regular fa-clock"></i> ~1.5 hrs</span>
+                </div>
+                <div class="route-price">Sedan <strong>₹1,699</strong></div>
+                <button class="route-book-btn">Book Now</button>
+            </div>
+
+            <div class="route-card" onclick="fillRoute('Rajkot')">
+                <div class="route-card-header">
+                    <span class="route-from">Ahmedabad</span>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <span class="route-to">Rajkot</span>
+                </div>
+                <div class="route-card-details">
+                    <span><i class="fa-solid fa-road"></i> ~215 km</span>
+                    <span><i class="fa-regular fa-clock"></i> ~3 hrs</span>
+                </div>
+                <div class="route-price">Sedan <strong>₹2,499</strong></div>
+                <button class="route-book-btn">Book Now</button>
+            </div>
+
+            <div class="route-card" onclick="fillRoute('Bhuj')">
+                <div class="route-card-header">
+                    <span class="route-from">Ahmedabad</span>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <span class="route-to">Bhuj</span>
+                </div>
+                <div class="route-card-details">
+                    <span><i class="fa-solid fa-road"></i> ~330 km</span>
+                    <span><i class="fa-regular fa-clock"></i> ~5 hrs</span>
+                </div>
+                <div class="route-price">Sedan <strong>₹4,500</strong></div>
+                <button class="route-book-btn">Book Now</button>
+            </div>
+
+            <div class="route-card" onclick="fillRoute('Somnath')">
+                <div class="route-card-header">
+                    <span class="route-from">Ahmedabad</span>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <span class="route-to">Somnath</span>
+                </div>
+                <div class="route-card-details">
+                    <span><i class="fa-solid fa-road"></i> ~420 km</span>
+                    <span><i class="fa-regular fa-clock"></i> ~6 hrs</span>
+                </div>
+                <div class="route-price">Sedan <strong>₹6,999</strong></div>
+                <button class="route-book-btn">Book Now</button>
+            </div>
+
+            <div class="route-card" onclick="fillRoute('Gandhidham')">
+                <div class="route-card-header">
+                    <span class="route-from">Ahmedabad</span>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <span class="route-to">Gandhidham</span>
+                </div>
+                <div class="route-card-details">
+                    <span><i class="fa-solid fa-road"></i> ~360 km</span>
+                    <span><i class="fa-regular fa-clock"></i> ~5.5 hrs</span>
+                </div>
+                <div class="route-price">Sedan <strong>₹3,999</strong></div>
+                <button class="route-book-btn">Book Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <p>Simple Process</p>
+                <h2>How It Works</h2>
+            </div>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <div class="step-icon"><i class="fa-solid fa-map-pin"></i></div>
+                    <h3>Enter Route</h3>
+                    <p>Enter your pickup and drop locations along with the travel date and time.</p>
+                </div>
+                <div class="step-connector"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <div class="step-icon"><i class="fa-solid fa-car"></i></div>
+                    <h3>Choose Vehicle</h3>
+                    <p>Select from Sedan, Ertiga, or Crista based on your comfort and group size.</p>
+                </div>
+                <div class="step-connector"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <div class="step-icon"><i class="fa-solid fa-credit-card"></i></div>
+                    <h3>Confirm & Pay</h3>
+                    <p>Submit your booking details. Our team will call you to confirm and arrange payment.</p>
+                </div>
+                <div class="step-connector"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="step">
+                    <div class="step-number">04</div>
+                    <div class="step-icon"><i class="fa-solid fa-taxi"></i></div>
+                    <h3>Enjoy Your Ride</h3>
+                    <p>Your driver arrives on time. Sit back, relax and enjoy a comfortable journey.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Confirmation Modal -->
+    <div id="bookingModal" class="modal-overlay" style="display:none;">
+        <div class="modal-box glass">
+            <div class="modal-success-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2>Booking Confirmed! 🎉</h2>
+            <p id="modalMessage">Your taxi has been successfully booked. Our team will contact you shortly to confirm the details.</p>
+            <div class="modal-details" id="modalDetails"></div>
+            <button class="btn btn-primary" onclick="closeModal()" style="margin-top: 1.5rem; width: 100%;">
+                <i class="fa-solid fa-check"></i> Done
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <a href="index.html" class="logo" style="margin-bottom: 1.5rem; color: var(--white);">
+                        <i class="fa-solid fa-earth-americas"></i> Explore Hub Tourism
+                    </a>
+                    <p>Your trusted partner for intercity travel. Book one-way cabs across India with ease.</p>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem; font-size: 1.5rem;">
+                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/jadavinnovations.in?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <a href="taxi.html">One Way Taxi</a>
+                    <a href="index.html#destinations">Tour Packages</a>
+                    <a href="goa.html">Goa Holiday</a>
+                    <a href="contact.html">Custom Trips</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Gujarat Routes</h4>
+                    <a href="#">Ahmedabad → Surat</a>
+                    <a href="#">Ahmedabad → Vadodara</a>
+                    <a href="#">Ahmedabad → Rajkot</a>
+                    <a href="#">Ahmedabad → Bhuj</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <p><i class="fa-solid fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fa-solid fa-envelope"></i> taxi@explorehub.in</p>
+                    <p><i class="fa-solid fa-location-dot"></i> Ahmedabad, Gujarat</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Explore Hub Tourism. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="taxi.js"></script>
+
+</body>
+
+</html>

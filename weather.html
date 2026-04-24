@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyCast Weather</title>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="weather.css">
+</head>
+<body>
+
+    <div class="weather-app">
+        <!-- Header -->
+        <div class="app-header">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+            <div class="search-container">
+                <input type="text" id="cityInput" placeholder="Search city..." value="Ahmedabad">
+                <i class="fas fa-search" id="searchBtn" style="cursor: pointer;"></i>
+            </div>
+        </div>
+
+        <!-- Main Info -->
+        <div class="current-weather">
+            <div class="location-name" id="cityName">Ahmedabad</div>
+            <div class="main-temp">
+                <span id="tempValue">34</span><span>°</span>
+            </div>
+            <div class="weather-desc" id="weatherDesc">Sunny</div>
+            <div class="high-low">H:36° L:25°</div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="cards-grid">
+            
+            <!-- Hourly Forecast (Full width) -->
+            <div class="weather-card full-width">
+                <div class="card-header">
+                    <i class="far fa-clock"></i> Hourly forecast
+                </div>
+                <div class="hourly-forecast" id="hourlyForecast">
+                    <!-- Hourly items injected via JS -->
+                </div>
+            </div>
+
+            <!-- UV Index -->
+            <div class="weather-card">
+                <div class="card-header">
+                    <i class="fas fa-sun"></i> UV Index
+                </div>
+                <div class="card-value" id="uvIndex">--</div>
+                <div class="card-desc">Max today</div>
+            </div>
+
+            <!-- Humidity -->
+            <div class="weather-card">
+                <div class="card-header">
+                    <i class="fas fa-tint"></i> Humidity
+                </div>
+                <div class="card-value" id="humidity">--%</div>
+            </div>
+
+            <!-- Wind -->
+            <div class="weather-card">
+                <div class="card-header">
+                    <i class="fas fa-wind"></i> Wind
+                </div>
+                <div class="card-value" id="windSpeed">-- km/h</div>
+            </div>
+
+            <!-- Feel Like -->
+            <div class="weather-card">
+                <div class="card-header">
+                    <i class="fas fa-thermometer-half"></i> Feels Like
+                </div>
+                <div class="card-value" id="feelsLike">--°</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const searchBtn = document.getElementById('searchBtn');
+        const cityInput = document.getElementById('cityInput');
+        const tempValue = document.getElementById('tempValue');
+        const weatherDesc = document.getElementById('weatherDesc');
+        const cityName = document.getElementById('cityName');
+        const humidity = document.getElementById('humidity');
+        const windSpeed = document.getElementById('windSpeed');
+        const uvIndex = document.getElementById('uvIndex');
+        const feelsLike = document.getElementById('feelsLike');
+        const hourlyForecast = document.getElementById('hourlyForecast');
+
+        searchBtn.addEventListener('click', fetchWeatherData);
+        cityInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') fetchWeatherData();
+        });
+
+        // Map WMO Weather codes to UI text and FontAwesome icons
+        function getWeatherInfo(code, isDay) {
+            let desc = "Clear";
+            let icon = isDay ? "fas fa-sun color-sun" : "fas fa-moon color-cloud";
+            let bg = isDay 
+                ? "linear-gradient(180deg, #4da4e4 0%, #7db9e8 50%, #a2cdec 100%)" 
+                : "linear-gradient(180deg, #16222A 0%, #3A6073 100%)";
+
+            if (code === 0) {
+                desc = "Clear";
+            } else if ([1, 2, 3].includes(code)) {
+                desc = "Partly Cloudy";
+                icon = isDay ? "fas fa-cloud-sun color-cloud" : "fas fa-cloud-moon color-cloud";
+                bg = isDay 
+                    ? "linear-gradient(180deg, #6c8a9e 0%, #95abbb 50%, #b2c3cf 100%)"
+                    : "linear-gradient(180deg, #2c3e50 0%, #3498db 100%)";
+            } else if ([45, 48].includes(code)) {
+                desc = "Fog";
+                icon = "fas fa-smog color-cloud";
+                bg = "linear-gradient(180deg, #6c8a9e 0%, #95abbb 50%, #b2c3cf 100%)";
+            } else if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
+                desc = "Rain";
+                icon = "fas fa-cloud-showers-heavy color-rain";
+                bg = "linear-gradient(180deg, #4a5c6d 0%, #687989 50%, #8b99a6 100%)";
+            } else if ([71, 73, 75, 77, 85, 86].includes(code)) {
+                desc = "Snow";
+                icon = "fas fa-snowflake color-cloud";
+                bg = "linear-gradient(180deg, #83a4d4 0%, #b6fbff 100%)";
+            } else if ([95, 96, 99].includes(code)) {
+                desc = "Thunderstorm";
+                icon = "fas fa-bolt color-sun";
+                bg = "linear-gradient(180deg, #232526 0%, #414345 100%)";
+            }
+            return { desc, icon, bg };
+        }
+
+        async function fetchWeatherData() {
+            const city = cityInput.value.trim();
+            if(!city) return;
+
+            document.querySelector('.current-weather').style.animation = 'none';
+            document.querySelector('.cards-grid').style.opacity = '0';
+
+            try {
+                // 1. Geocoding API to get lat/lon
+                const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`);
+                const geoData = await geoRes.json();
+                
+                if (!geoData.results || geoData.results.length === 0) {
+                    alert("City not found!");
+                    return;
+                }
+                
+                const location = geoData.results[0];
+                const lat = location.latitude;
+                const lon = location.longitude;
+                cityName.textContent = `${location.name}, ${location.country_code}`;
+
+                // 2. Weather API
+                const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code&daily=uv_index_max&timezone=auto`);
+                const data = await weatherRes.json();
+
+                const current = data.current;
+                const daily = data.daily;
+                const hourly = data.hourly;
+
+                // Update UI
+                tempValue.textContent = Math.round(current.temperature_2m);
+                humidity.textContent = current.relative_humidity_2m + '%';
+                windSpeed.textContent = current.wind_speed_10m + ' km/h';
+                feelsLike.textContent = Math.round(current.apparent_temperature) + '°';
+                uvIndex.textContent = daily.uv_index_max[0] ? Math.round(daily.uv_index_max[0]) : '--';
+
+                const info = getWeatherInfo(current.weather_code, current.is_day);
+                weatherDesc.textContent = info.desc;
+                document.body.style.background = info.bg;
+
+                // Update Hourly Forecast (next 5 hours)
+                hourlyForecast.innerHTML = '';
+                const currentHourStr = current.time.slice(0, 13); // e.g. "2023-10-25T14"
+                let startIndex = hourly.time.findIndex(t => t.startsWith(currentHourStr));
+                if (startIndex === -1) startIndex = 0;
+
+                for (let i = 0; i < 6; i++) {
+                    const idx = startIndex + i;
+                    if (idx >= hourly.time.length) break;
+
+                    const timeStr = hourly.time[idx];
+                    const dateObj = new Date(timeStr);
+                    let displayTime = i === 0 ? "Now" : dateObj.getHours() + ":00";
+                    
+                    const hTemp = Math.round(hourly.temperature_2m[idx]);
+                    const hCode = hourly.weather_code[idx];
+                    const hIsDay = (dateObj.getHours() > 6 && dateObj.getHours() < 19) ? 1 : 0; // rough estimate for hourly icon
+                    
+                    const hInfo = getWeatherInfo(hCode, hIsDay);
+
+                    const hourHtml = `
+                        <div class="hour-item">
+                            <span class="hour-time">${displayTime}</span>
+                            <i class="${hInfo.icon} hour-icon"></i>
+                            <span class="hour-temp">${hTemp}°</span>
+                        </div>
+                    `;
+                    hourlyForecast.innerHTML += hourHtml;
+                }
+
+                document.querySelector('.current-weather').style.animation = 'fadeIn 0.8s ease-out forwards';
+                document.querySelector('.cards-grid').style.opacity = '1';
+                document.querySelector('.cards-grid').style.transition = 'opacity 0.8s ease-out';
+
+            } catch (err) {
+                console.error("Error fetching weather:", err);
+                alert("Failed to fetch weather data. Please try again.");
+            }
+        }
+        
+        // Initial fetch for default city
+        fetchWeatherData();
+    </script>
+</body>
+</html>
